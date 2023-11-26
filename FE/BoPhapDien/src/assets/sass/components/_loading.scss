@@ -1,0 +1,27 @@
+@import '../variables';
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    >div {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        animation: ring 1s ease-in-out infinite;
+        border: 7px solid #4eb57b;
+        border-top: 7px solid $color-primary;
+
+    }
+}
+
+@keyframes ring {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -57,3 +57,31 @@ class GetTree(APIView):
                 json_data[str(index)]['children'].append(json_children)
 
         return Response(json_data, status=status.HTTP_200_OK)
+
+
+class Search(APIView):
+    def post(self, request, format=None):
+        content = request.data.get('content', None)
+        if content is None:
+            return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            content = content.lower()
+            json_data = {
+                "answer": f"Đây là câu trả lời của {content}"
+            }
+
+            return Response(json_data, status=status.HTTP_200_OK)
+
+
+class QuestionAndAnswer(APIView):
+    def post(self, request, format=None):
+        content = request.data.get('content', None)
+        if content is None:
+            return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            content = content.lower()
+            json_data = {
+                "answer": f"Đây là câu trả lời của {content}"
+            }
+
+            return Response(json_data, status=status.HTTP_200_OK)

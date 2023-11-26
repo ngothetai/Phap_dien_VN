@@ -20,4 +20,5 @@ from app import views
 
 urlpatterns = [
     path('', views.home, name='home_view'),
+    path('get_tree/', views.GetTree.as_view(), name='get_tree_view'),
 ]

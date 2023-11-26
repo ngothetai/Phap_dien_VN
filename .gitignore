@@ -1,4 +1,7 @@
 app/migrations/*
+static/JSON/get.json
+static/JSON/get.py
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

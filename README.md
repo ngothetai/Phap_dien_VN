@@ -84,3 +84,32 @@ class
 
 - Topics (Chủ đề pháp điển)
 - Sub_topic (Đề mục pháp điển)      
+
+
+# API
+
+--------------------
+Endpoint: 
+
+  link: http://127.0.0.1:8000/
+
+--------------------
+Get_all Tree: **Method: GET**
+
+  link: http://127.0.0.1:8000/get_tree
+
+--------------------
+
+Search box: **Method: POST**
+
+  link: http://127.0.0.1:8000/search/
+
+  data = {"content": "Nội dung tìm kiếm"}
+
+--------------------
+
+Q and A: **Method: POST**
+
+  link: http://127.0.0.1:8000/qaa/
+
+  data = {"content": "Nội dung câu hỏi"}

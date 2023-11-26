@@ -1,0 +1,29 @@
+@import '../variables';
+
+.footer {
+    border-top: 6px solid #94c457;
+    padding: 1em;
+    font-size: 12px;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    background-color: #94c457;
+    color: #fff;
+
+    >div {
+        padding: 10px 0 10px;
+        width: $page-size;
+        display: flex;
+        justify-content: space-between;
+
+    }
+
+    a {
+        color: #fff;
+    }
+
+    a:hover {
+        color: cornflowerblue;
+        text-decoration: underline;
+    }
+}

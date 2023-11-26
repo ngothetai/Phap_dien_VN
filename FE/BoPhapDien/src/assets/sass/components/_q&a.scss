@@ -1,0 +1,134 @@
+@import '../variables';
+
+.chatbot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-history {
+    width: 18%;
+    background-color: $color-primary;
+    height: 100vh;
+    padding: 1.2em 1.5em;
+
+    >h1 {
+        color: #fff;
+        font-size: 20px;
+    }
+}
+
+.chat {
+    width: 82%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: calc(100vh - 72px);
+
+    .header {
+        left: unset;
+        right: 0 !important;
+        width: 82%;
+    }
+
+    .chatbox {
+        margin-top: 32px;
+        width: 62%;
+        padding: 8px;
+        list-style: none;
+        height: 86%;
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: transparent;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: transparent;
+        }
+
+        >.messages {
+            margin: 16px 0;
+            display: flex;
+
+            img {
+                width: 32px;
+                height: 32px;
+            }
+
+            >p {
+                margin-left: 8px;
+                padding: 12px 16px;
+                border-radius: 10px 10px 0 10px;
+                background-color: $color-primary;
+                color: $text-white;
+                line-height: 1.8;
+
+                span {
+                    font-weight: bold;
+                }
+            }
+
+        }
+
+        .incoming {
+            >p {
+                border-radius: 0 10px 10px 10px;
+                background: #dbdbdb;
+                color: $text-black;
+            }
+        }
+
+        .outgoing {
+            justify-content: flex-end;
+        }
+    }
+
+    .inp-chat {
+        width: 50%;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        bottom: 24px;
+
+        >input {
+            width: 90%;
+            font-size: 16px;
+            padding: 8px;
+            border: none;
+            outline: none;
+            resize: none;
+        }
+
+        >button {
+            background-color: transparent;
+            border: none;
+
+            >svg {
+                margin-right: 12px;
+                cursor: pointer;
+
+                &:hover {
+                    fill: $color-primary;
+                }
+            }
+        }
+    }
+}

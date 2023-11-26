@@ -39,6 +39,7 @@ class GetTree(APIView):
             for id_topic, value_topic in enumerate(children_topic):
                 json_children = {
                     'id': value_topic.heading_id,
+                    'id_parent': value['topic_id'],
                     'name': value_topic.heading_name,
                     'rank': value_topic.rank,
                     'children': []
@@ -48,6 +49,8 @@ class GetTree(APIView):
                 for id_heading, value_heading in enumerate(children_heading):
                     json_heading = {
                         'id': value_heading.article_id,
+                        'id_parent': value_topic.heading_id,
+                        'id_grandparent': value['topic_id'],
                         'name': value_heading.article_name,
                         'rank': value_heading.rank,
                         'mapc': value_heading.mapc,

@@ -1,4 +1,5 @@
-BE/
+BE/app/text.py
+BE/static/demuc/
 .idea
 # Byte-compiled / optimized / DLL files
 __pycache__/

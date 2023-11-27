@@ -13,7 +13,7 @@ function App() {
           <Route path='' element={<ContentAlbum />}></Route>
         </Route>
         <Route path='/q&a' element={<QuestionAndAnswer />} />
-        <Route path='/login' element={<Login />} />
+        {/* <Route path='/login' element={<Login />} /> */}
         <Route path='*' element={<NotFound />} />
       </Routes>
     </div>

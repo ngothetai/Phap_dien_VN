@@ -72,11 +72,11 @@
 
     }
 
-    // ul>li:nth-last-child(1) {
-    //     &::after {
-    //         display: none;
-    //     }
-    // }
+    ul>li:nth-last-child(1) {
+        &::after {
+            display: none;
+        }
+    }
 
 
 

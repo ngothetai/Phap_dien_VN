@@ -14,9 +14,9 @@ const Header = () => {
                     <li>
                         <NavLink to={"/q&a"} >Q & A</NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink to={"/login"} >Đăng nhập</NavLink>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
         </div>

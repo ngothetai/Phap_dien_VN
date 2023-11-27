@@ -9,6 +9,7 @@ from rest_framework import status
 
 from app.models import Topic, Heading, Article
 from app.serializer import TopicSerializer, HeadingSerializer
+from app.text import NormalizerVietnamese
 import json
 
 
@@ -24,7 +25,6 @@ class GetTree(APIView):
 
     def get(self, request, format=None):
         AllTopic = Topic.objects.all()
-        AllHeading = Heading.objects.all()
         topic_data = TopicSerializer(AllTopic, many=True).data
 
         json_data = dict()
@@ -88,3 +88,35 @@ class QuestionAndAnswer(APIView):
             }
 
             return Response(json_data, status=status.HTTP_200_OK)
+
+
+class PreprocessingDataset(APIView):
+    def post(self, request, format=None):
+        AllHeading = Heading.objects.all()
+        for id, heading in enumerate(AllHeading):
+            heading_id = heading.heading_id
+            topic_name = heading.topic.topic_name
+
+            data = open(f"static/demuc/{heading_id}.html", "r",
+                        encoding="utf-8").read().splitlines()
+            for id_data, value_data in enumerate(data):
+                data[id_data] = NormalizerVietnamese(
+                ).remove_html(value_data).split('\n')
+                for id_line, value_line in enumerate(data[id_data]):
+                    data[id_data][id_line] = data[id_data][id_line].strip()
+                new_data = []
+                for id_line, value_line in enumerate(data[id_data]):
+                    if data[id_data][id_line] == '':
+                        continue
+                    new_data.append(data[id_data][id_line])
+                data[id_data] = new_data[::]
+            with open(f"static/demuc/output/{heading_id}.txt", "w", encoding="utf-8") as outfile:
+                outfile.write("Chủ đề: " + topic_name + '\n')
+                for index, value in enumerate(data):
+                    if len(data[index]):
+                        for id, _ in enumerate(data[index]):
+                            outfile.write(data[index][id] + '\n')
+        json_data = {
+            "answer": data
+        }
+        return Response(json_data, status=status.HTTP_200_OK)

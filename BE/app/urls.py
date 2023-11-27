@@ -23,4 +23,5 @@ urlpatterns = [
     path('get_tree/', views.GetTree.as_view(), name='get_tree_view'),
     path('search/', views.Search.as_view(), name='search_view'),
     path('qaa/', views.QuestionAndAnswer.as_view(), name='qaa_view'),
+    path('text/', views.PreprocessingDataset.as_view(), name='text_view'),
 ]

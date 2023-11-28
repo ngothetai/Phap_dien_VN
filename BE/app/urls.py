@@ -20,8 +20,8 @@ from app import views
 
 urlpatterns = [
     path('', views.home, name='home_view'),
-    path('get_tree/', views.GetTree.as_view(), name='get_tree_view'),
-    path('search/', views.Search.as_view(), name='search_view'),
-    path('qaa/', views.QuestionAndAnswer.as_view(), name='qaa_view'),
-    path('text/', views.PreprocessingDataset.as_view(), name='text_view'),
+    path('api/get_tree/', views.GetTree.as_view(), name='get_tree_view'),
+    path('api/search/', views.Search.as_view(), name='search_view'),
+    path('api/qaa/', views.QuestionAndAnswer.as_view(), name='qaa_view'),
+    path('api/text/', views.PreprocessingDataset.as_view(), name='text_view'),
 ]

@@ -91,18 +91,18 @@ class
 --------------------
 Endpoint: 
 
-  link: http://127.0.0.1:8000/
+  link: http://127.0.0.1:8000/api/
 
 --------------------
 Get_all Tree: **Method: GET**
 
-  link: http://127.0.0.1:8000/get_tree
+  link: http://127.0.0.1:8000/api/get_tree
 
 --------------------
 
 Search box: **Method: POST**
 
-  link: http://127.0.0.1:8000/search/
+  link: http://127.0.0.1:8000/api/search/
 
   data = {"content": "Nội dung tìm kiếm"}
 
@@ -110,6 +110,6 @@ Search box: **Method: POST**
 
 Q and A: **Method: POST**
 
-  link: http://127.0.0.1:8000/qaa/
+  link: http://127.0.0.1:8000/api/qaa/
 
   data = {"content": "Nội dung câu hỏi"}

@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from app.models import Topic, Heading, Article
-from app.serializer import TopicSerializer, HeadingSerializer
+from app.serializer import TopicSerializer, HeadingSerializer, ArticleSerializer
 from app.text import NormalizerVietnamese
 import json
 
@@ -21,102 +21,54 @@ def home(request):
     return HttpResponse(template.render(context, request))
 
 
-class GetTree(APIView):
+class TopicAPIView(APIView):
+    def get(self, request):
+        topics = Topic.objects.all()
+        serializer = TopicSerializer(topics, many=True)
+        return Response(serializer.data)
 
-    def get(self, request, format=None):
-        AllTopic = Topic.objects.all()
-        topic_data = TopicSerializer(AllTopic, many=True).data
 
-        json_data = dict()
-
-        for index, value in enumerate(topic_data):
-            json_data[str(index)] = {
-                'id': value['topic_id'],
-                'name': value['topic_name'],
-                'children': []
-            }
-            children_topic = Heading.objects.filter(topic=value['topic_id'])
-            for id_topic, value_topic in enumerate(children_topic):
-                json_children = {
-                    'id': value_topic.heading_id,
-                    'id_parent': value['topic_id'],
-                    'name': value_topic.heading_name,
-                    'rank': value_topic.rank,
-                    'children': []
-                }
-                children_heading = Article.objects.filter(
-                    heading=value_topic.heading_id)
-                for id_heading, value_heading in enumerate(children_heading):
-                    json_heading = {
-                        'id': value_heading.article_id,
-                        'id_parent': value_topic.heading_id,
-                        'id_grandparent': value['topic_id'],
-                        'name': value_heading.article_name,
-                        'rank': value_heading.rank,
-                        'mapc': value_heading.mapc,
-                    }
-                    json_children['children'].append(json_heading)
-
-                json_data[str(index)]['children'].append(json_children)
-
+class HeadingAPIView(APIView):
+    def get(self, request):
+        id_topic = request.GET.get('id_topic')
+        if id_topic is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        headings = Heading.objects.filter(topic_id=id_topic)
+        serializer = HeadingSerializer(headings, many=True)
+        json_data = sorted(serializer.data, key=lambda x: x["rank"])
         return Response(json_data, status=status.HTTP_200_OK)
 
 
-class Search(APIView):
-    def post(self, request, format=None):
-        content = request.data.get('content', None)
+class ArticleAPIView(APIView):
+    def get(self, request):
+        id_heading = request.GET.get('id_heading')
+        id_parent = request.GET.get('id_parent')
+
+        if id_heading is None or id_parent is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        if id_parent == "null":
+            id_parent = None
+
+        articles = Article.objects.filter(
+            heading=id_heading, parrent=id_parent)
+        serializer = ArticleSerializer(articles, many=True)
+        return Response(serializer.data)
+
+
+class QuestionAPIView(APIView):
+    def post(self, request):
+        content = request.data.get('content')
         if content is None:
-            return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
-        else:
-            content = content.lower()
-            json_data = {
-                "answer": f"Đây là câu trả lời của {content}"
-            }
-
-            return Response(json_data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        content = NormalizerVietnamese().normalize(content)
+        return Response({"result": content}, status=status.HTTP_200_OK)
 
 
-class QuestionAndAnswer(APIView):
-    def post(self, request, format=None):
-        content = request.data.get('content', None)
+class SearchAPIView(APIView):
+    def post(self, request):
+        content = request.data.get('content')
         if content is None:
-            return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
-        else:
-            content = content.lower()
-            json_data = {
-                "answer": f"Đây là câu trả lời của {content}"
-            }
-
-            return Response(json_data, status=status.HTTP_200_OK)
-
-
-class PreprocessingDataset(APIView):
-    def post(self, request, format=None):
-        AllHeading = Heading.objects.all()
-        for id, heading in enumerate(AllHeading):
-            heading_id = heading.heading_id
-            topic_name = heading.topic.topic_name
-
-            data = open(f"static/demuc/{heading_id}.html", "r",
-                        encoding="utf-8").read().splitlines()
-            for id_data, value_data in enumerate(data):
-                data[id_data] = NormalizerVietnamese(
-                ).remove_html(value_data).split('\n')
-                for id_line, value_line in enumerate(data[id_data]):
-                    data[id_data][id_line] = data[id_data][id_line].strip()
-                new_data = []
-                for id_line, value_line in enumerate(data[id_data]):
-                    if data[id_data][id_line] == '':
-                        continue
-                    new_data.append(data[id_data][id_line])
-                data[id_data] = new_data[::]
-            with open(f"static/demuc/output/{heading_id}.txt", "w", encoding="utf-8") as outfile:
-                outfile.write("Chủ đề: " + topic_name + '\n')
-                for index, value in enumerate(data):
-                    if len(data[index]):
-                        for id, _ in enumerate(data[index]):
-                            outfile.write(data[index][id] + '\n')
-        json_data = {
-            "answer": data
-        }
-        return Response(json_data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        content = NormalizerVietnamese().normalize(content)
+        return Response({"result": content}, status=status.HTTP_200_OK)

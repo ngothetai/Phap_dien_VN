@@ -1,13 +1,13 @@
 @import '../variables';
 
 .footer {
-    border-top: 6px solid #94c457;
+    border-top: 6px solid $color-primary;
     padding: 1em;
     font-size: 12px;
     color: #333;
     display: flex;
     justify-content: center;
-    background-color: #94c457;
+    background-color: $color-primary;
     color: #fff;
 
     >div {

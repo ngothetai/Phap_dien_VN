@@ -2,33 +2,104 @@
 
 
 .content-album {
-    margin-top: 72px;
     overflow: auto;
-    background-color: #fff;
+    width: $page-size;
+    margin: 0 auto;
+    margin-top: 72px;
 
 
     .title {
         background-color: #fff;
         position: fixed;
-        left: 0;
-        right: 0;
-        padding: 32px 0;
+        width: $page-size;
+        margin: 0 auto;
+        padding: 24px 0;
         z-index: 80;
         border-bottom: 1px solid $color-primary;
 
         >h1 {
-            font-size: 24px;
+            font-size: 20px;
             text-align: center;
         }
     }
 }
 
-.tree {
-    height: 100vh;
+.search {
     width: $page-size;
-    margin: 100px auto 0;
+    margin: 80px auto 0;
+    height: 100vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+
+
+    >div {
+        display: flex;
+        padding: 1rem 0;
+
+        select,
+        form {
+            padding: 8px;
+            width: 30%;
+
+        }
+
+        select:nth-child(2) {
+            margin: 0 16px;
+        }
+
+        option {
+            padding: 16px 0;
+        }
+
+        form {
+            border: 1px solid $text-black;
+            padding: 5px 8px;
+            border-radius: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            >input {
+                border: none;
+                outline: none;
+                width: 90%;
+            }
+
+            >button {
+                border: 0;
+                outline: 0;
+                background-color: transparent;
+
+                >svg:hover {
+                    fill: $color-secondary;
+                }
+            }
+        }
+    }
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $color-secondary;
+        height: 40px !important;
+        width: 10px;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: $color-primary;
+    }
+}
+
+.tree {
     padding: 2em 2em 2em 0;
-    overflow: auto;
+    border-top: 1px solid $color-primary;
 
     ul,
     summary {
@@ -43,11 +114,11 @@
 
     ul>li {
         margin-left: 20px;
+        font-size: 15px;
         position: relative;
         cursor: pointer;
         font-weight: 500;
         line-height: 2em;
-
 
         &::before {
             content: "";
@@ -57,7 +128,7 @@
             position: absolute;
             top: 0;
             width: 16px;
-            height: 1em;
+            height: 1.3em;
         }
 
         &::after {
@@ -94,22 +165,36 @@
         z-index: 40;
     }
 
-    &::-webkit-scrollbar {
-        width: 10px;
+
+}
+
+.btn-detail {
+    background-color: transparent;
+    border: 1px solid $color-secondary;
+    margin-left: 12px;
+    color: $color-secondary;
+    font-weight: 600;
+    padding: 2px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+
+    &:hover {
+        background-color: $color-secondary;
+        color: #fff;
     }
 
-    &::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
+    display: none;
+}
 
-    &::-webkit-scrollbar-thumb {
-        background: $color-secondary;
-        height: 40px !important;
-        width: 10px;
-        border-radius: 4px;
-    }
+summary {
+    line-height: 2.6rem !important;
+}
 
-    &::-webkit-scrollbar-thumb:hover {
-        background: $color-primary;
+summary:hover {
+    color: red;
+
+    .btn-detail {
+        display: inline-block;
     }
 }

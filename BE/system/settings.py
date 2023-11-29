@@ -23,17 +23,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6x9nl-f%udq4tfm*5&xav*t-y(_7%!0lf&@lk+(ydupjv_*3z1'
+SECRET_KEY = 'django-insecure-6x9nl-f%udq4tfm*5&xav*t-y(7%!0lf&@lk+(ydupjv*3z1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "*"
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
     'rest_framework',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,12 +60,17 @@ MIDDLEWARE = [
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = False
+
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "http://localhost:5173",
-    'http://localhost:3030',
+    "http://127.0.0.1:5173",
+    "http://localhost:3030",
 ]
+
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -72,6 +79,11 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
+
+CORS_ALLOW_HEADERS = [
+    *default_headers,
+]
+
 
 ROOT_URLCONF = 'system.urls'
 

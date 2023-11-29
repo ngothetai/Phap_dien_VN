@@ -18,7 +18,7 @@
 
 # RUN
 
-## SETUP
+## SETUP ENVIRONMENT
 ```bash
 mamba create -n be python=3.9
 mamba activate be
@@ -28,31 +28,15 @@ mamba install -c conda-forge django -y
 ## RUN PROJECT
 
 ```bash
-python manager.py makemigrations
-python manager.py migrate
-python manager.py createsuperuser
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
 ```
 
 ## INSERT DATABASE
 
-- place 4 path database and jsonfile below
-
-- run file main.py in static/test/ to insert database
-
-```python
-database = DatabaseConnection("<path_database>",
-                              "<path_topic_json>",
-                              "<path_heading_json>",
-                              "<path_alltree_json>")
-
-database.insert_topic("app_topic", database.topic_json)
-database.insert_heading("app_heading", database.heading_json)
-database.insert_article("app_article", database.alltree_json)
-```
-
-
 ```bash
-python main.py
+python static/JSON/database.py
 ```
 
 

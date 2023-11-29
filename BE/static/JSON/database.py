@@ -1,5 +1,6 @@
 import sqlite3
 import json
+from tqdm import tqdm
 
 
 class DatabaseConnection:
@@ -84,12 +85,57 @@ class DatabaseConnection:
 
         self.connection.commit()
 
+    def article(self, table_name, json_article, len_MAPC=20):
+        print(f"INSERT DATA {len_MAPC}")
+        cursor = self.connection.cursor()
+        json_data = dict()
+        for index, value in enumerate(json_article):
+            if len(value["MAPC"]) not in json_data.keys():
+                json_data[len(value["MAPC"])] = []
+            json_data[len(value["MAPC"])].append(value)
 
-database = DatabaseConnection("<path_database>",
-                              "<path_topic_json>",
-                              "<path_heading_json>",
-                              "<path_alltree_json>")
+        json_data = json_data[len_MAPC]
+        for index, value in tqdm(enumerate(json_data)):
+            id_article = value['ID']
+            rank = value['ChiMuc']
+            mapc = value['MAPC']
+            name_article = value['TEN']
+            id_topic = value['ChuDeID']
+            id_heading = value['DeMucID']
+
+            cursor.execute(
+                "SELECT * FROM app_topic WHERE topic_id=?", (id_topic,))
+            topic = cursor.fetchone()
+            cursor.execute(
+                "SELECT * FROM app_heading WHERE heading_id=?", (id_heading,))
+            heading = cursor.fetchone()
+
+            if topic and heading:
+
+                cursor.execute(
+                    f"SELECT * FROM {table_name} WHERE mapc = ?", (mapc[:-20],))
+                mapc_parent = cursor.fetchone()
+                if mapc_parent is not None:
+                    mapc_parent = mapc_parent[0]
+                cursor.execute(
+                    f"INSERT INTO {table_name} VALUES (?, ?, ?, ?, ?, ?, ?);",
+                    (id_article, rank, mapc, name_article,
+                     heading[0], mapc_parent, topic[0]),
+                )
+        self.connection.commit()
+
+
+database = DatabaseConnection("db.sqlite3",
+                              "static/JSON/topics_json.json",
+                              "static/JSON/headings_json.json",
+                              "static/JSON/allTree_json.json")
 
 database.insert_topic("app_topic", database.topic_json)
 database.insert_heading("app_heading", database.heading_json)
-database.insert_article("app_article", database.alltree_json)
+database.article("app_article", database.alltree_json, 20)
+database.article("app_article", database.alltree_json, 40)
+database.article("app_article", database.alltree_json, 60)
+database.article("app_article", database.alltree_json, 80)
+database.article("app_article", database.alltree_json, 100)
+database.article("app_article", database.alltree_json, 59)
+database.article("app_article", database.alltree_json, 79)

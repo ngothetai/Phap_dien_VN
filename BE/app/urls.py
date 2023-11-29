@@ -20,7 +20,9 @@ from app import views
 
 urlpatterns = [
     path('', views.home, name='home_view'),
-    path('get_tree/', views.GetTree.as_view(), name='get_tree_view'),
-    path('search/', views.Search.as_view(), name='search_view'),
-    path('qaa/', views.QuestionAndAnswer.as_view(), name='qaa_view'),
+    path('api/topic/', views.TopicAPIView.as_view(), name='topic_api'),
+    path('api/heading/', views.HeadingAPIView.as_view(), name='heading_api'),
+    path('api/article/', views.ArticleAPIView.as_view(), name='article_api'),
+    path('api/question/', views.QuestionAPIView.as_view(), name='question_api'),
+    path('api/search/', views.SearchAPIView.as_view(), name='search_api'),
 ]

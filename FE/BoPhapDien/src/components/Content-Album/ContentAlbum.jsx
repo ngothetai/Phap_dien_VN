@@ -1,16 +1,63 @@
+// ContentAlbum.js
 import React, { useEffect, useState } from 'react';
 import '../../assets/sass/components/_contentAlbum.scss';
-import data from '../../data/text.json';
+import axios from 'axios';
 import Loading from '../Loading/Loading';
+
+const TreeNode = React.memo(({ item, depth = 0 }) => {
+    const isLeafNode = !item.children || item.children.length === 0;
+    const isChapterNode = !isLeafNode;
+
+    const renderNode = () => (
+        <li key={item.id}>
+            <details>
+                <summary>
+                    <span className="plus">{isLeafNode ? '-' : '+'}</span>
+                    {item.name}
+                </summary>
+                {/* {isChapterNode ? renderChildren(item.children, depth + 1) : null} */}
+                {isChapterNode && (
+                    <ul>
+                        {item.children.map(childNode => (
+                            <TreeNode key={childNode.id} item={childNode} depth={depth + 1} />
+                        ))}
+                    </ul>
+                )}
+            </details>
+        </li>
+    );
+
+    // const renderChildren = (nodes, currentDepth) => {
+    //     if (!nodes || nodes.length === 0 || currentDepth > 3) {
+    //         return null;
+    //     }
+
+    //     return (
+    //         <ul>
+    //             {nodes.map(childNode => (
+    //                 <TreeNode key={childNode.id} item={childNode} depth={currentDepth} />
+    //             ))}
+    //         </ul>
+    //     );
+    // };
+
+    return renderNode();
+});
 
 const ContentAlbum = () => {
     const [tree, setTree] = useState([]);
-    const [stack, setStack] = useState([]);
 
     useEffect(() => {
         const getData = async () => {
             try {
-                setTree(Object.values(data));
+                // const sortedData = Object.values(data).sort((a, b) => a.id - b.id);
+                const { data } = await axios.get("http://127.0.0.1:8000/api/get_tree", function (req, res) {
+                    res.header("Access-Control-Allow-Origin", "*");
+                    res.send('Hello World');
+                },
+                );
+                // console.log(data);
+                setTree(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -24,29 +71,15 @@ const ContentAlbum = () => {
             return <Loading />;
         }
 
-        const renderedTree = [];
-        stack.push(...tree);
-
-        while (stack.length > 0) {
-            const currentNode = stack.pop();
-
-            if (currentNode.children && currentNode.children.length > 0) {
-                stack.push(...currentNode.children.reverse());
-            }
-
-            renderedTree.push(
-                <li key={currentNode.id}>
-                    <details>
-                        <summary>
-                            <span className="plus">+</span>
-                            {currentNode.name}
-                        </summary>
-                    </details>
-                </li>
-            );
-        }
-
-        return <ul>{renderedTree}</ul>;
+        return (
+            <div className="tree">
+                <ul>
+                    {tree.map(item => (
+                        <TreeNode key={item.id} item={item} />
+                    ))}
+                </ul>
+            </div>
+        );
     };
 
     return (
@@ -54,7 +87,7 @@ const ContentAlbum = () => {
             <div className="title">
                 <h1>BỘ PHÁP ĐIỂN ĐIỆN TỬ</h1>
             </div>
-            <div className="tree">{renderTree()}</div>
+            {renderTree()}
         </div>
     );
 };

@@ -18,7 +18,7 @@
 
 # RUN
 
-## SETUP
+## SETUP ENVIRONMENT
 ```bash
 mamba create -n be python=3.9
 mamba activate be
@@ -28,31 +28,15 @@ mamba install -c conda-forge django -y
 ## RUN PROJECT
 
 ```bash
-python manager.py makemigrations
-python manager.py migrate
-python manager.py createsuperuser
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
 ```
 
 ## INSERT DATABASE
 
-- place 4 path database and jsonfile below
-
-- run file main.py in static/test/ to insert database
-
-```python
-database = DatabaseConnection("<path_database>",
-                              "<path_topic_json>",
-                              "<path_heading_json>",
-                              "<path_alltree_json>")
-
-database.insert_topic("app_topic", database.topic_json)
-database.insert_heading("app_heading", database.heading_json)
-database.insert_article("app_article", database.alltree_json)
-```
-
-
 ```bash
-python main.py
+python static/JSON/database.py
 ```
 
 
@@ -79,6 +63,24 @@ python manager.py runserver
 
 ![img.png](static/demo/img.png)
 
+models Chủ đề
+  - id chủ đề
+  - name chủ dề
+
+models Đề mục
+  - id đề mục
+  - name đề mục
+  - id chủ đề
+  - rank số thứ tự đề mục
+  > xem danh mục văn bản
+  > xem chi tiết
+
+models chỉ mục
+  - id chỉ mục
+  - name chỉ mục
+  - id đề mục
+  - id chỉ mục(chỉ mục con)
+
 
 class 
 
@@ -91,25 +93,77 @@ class
 --------------------
 Endpoint: 
 
-  link: http://127.0.0.1:8000/
+  link: http://127.0.0.1:8000/api/
 
 --------------------
-Get_all Tree: **Method: GET**
+Lấy tất cả các chủ đề
 
-  link: http://127.0.0.1:8000/get_tree
+  method: **GET**
 
---------------------
-
-Search box: **Method: POST**
-
-  link: http://127.0.0.1:8000/search/
-
-  data = {"content": "Nội dung tìm kiếm"}
+  link: http://127.0.0.1:8000/api/topic/
 
 --------------------
+Lấy tất cả các đề mục theo chủ đề
 
-Q and A: **Method: POST**
+  method: **GET**
 
-  link: http://127.0.0.1:8000/qaa/
+  link: http://127.0.0.1:8000/api/heading/
 
-  data = {"content": "Nội dung câu hỏi"}
+```python
+params = {
+  'id_topic' : 'id topic được lấy từ api chủ đề'
+}
+```
+
+--------------------
+Lấy tất cả các Chương thuộc đề mục
+
+  method: **GET**
+
+  link: http://127.0.0.1:8000/api/article/
+
+```python
+params = {
+  'id_heading' : 'id của đề mục, cái này được lấy từ api đề mục',
+  'id_parent'  : 'null' <-- cái này để mặc định giá trị là null ko thay đổi
+}
+```
+
+--------------------
+Lấy tất cả các điều trong Chương
+
+  method: **GET**
+
+  link: http://127.0.0.1:8000/api/article/
+
+```python
+params = {
+  'id_heading' : 'id của đề mục, cái này lấy của api đề mục',
+  'id_parent'  : 'id của chương, cái này lấy của api chương'
+}
+```
+
+--------------------
+API tìm kiếm thông tin
+
+  method: **POST**
+
+  link: http://127.0.0.1:8000/api/search/
+
+```python
+data = {
+  "content": "Nội dung"
+}
+```
+--------------------
+API Chatbot
+
+  method: **POST**
+
+  link: http://127.0.0.1:8000/api/question/
+
+```python
+data = {
+  "content" : "Nội dung"
+}
+```

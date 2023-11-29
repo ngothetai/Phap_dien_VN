@@ -5,15 +5,16 @@ from django.db import models
 
 class Topic(models.Model):
     topic_id = models.CharField(primary_key=True, max_length=50, unique=True)
-    topic_name = models.CharField(max_length=100)
+    topic_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return self.topic_name
 
 
 class Heading(models.Model):
-    heading_id = models.CharField(primary_key=True, max_length=50, unique=True)
-    heading_name = models.CharField(max_length=100)
+    heading_id = models.CharField(
+        primary_key=True, max_length=255, unique=True)
+    heading_name = models.CharField(max_length=255)
     rank = models.IntegerField()
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
@@ -33,11 +34,15 @@ class Article(models.Model):
             "DeMucID": "55323c64-e78f-4537-afcd-6a3c2af3c71d"
         }
     """
-    article_id = models.CharField(primary_key=True, max_length=50, unique=True)
-    rank = models.CharField(max_length=50)
-    mapc = models.CharField(max_length=50)
-    article_name = models.CharField(max_length=100)
+    article_id = models.CharField(
+        primary_key=True, max_length=255, unique=True)
+    rank = models.CharField(max_length=255)
+    mapc = models.CharField(max_length=255)
+    article_name = models.CharField(max_length=255)
     heading = models.ForeignKey(Heading, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    parrent = models.ForeignKey(
+        'self', null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.article_name

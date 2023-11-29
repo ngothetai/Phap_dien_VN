@@ -1,8 +1,49 @@
+// ContentAlbum.js
 import React, { useEffect, useState } from 'react';
 import '../../assets/sass/components/_contentAlbum.scss';
 import Loading from '../Loading/Loading';
 import { topicData } from '../../data/topic';
 import TreeNode from './TreeNode';
+
+const TreeNode = React.memo(({ item, depth = 0 }) => {
+    const isLeafNode = !item.children || item.children.length === 0;
+    const isChapterNode = !isLeafNode;
+
+    const renderNode = () => (
+        <li key={item.id}>
+            <details>
+                <summary>
+                    <span className="plus">{isLeafNode ? '-' : '+'}</span>
+                    {item.name}
+                </summary>
+                {/* {isChapterNode ? renderChildren(item.children, depth + 1) : null} */}
+                {isChapterNode && (
+                    <ul>
+                        {item.children.map(childNode => (
+                            <TreeNode key={childNode.id} item={childNode} depth={depth + 1} />
+                        ))}
+                    </ul>
+                )}
+            </details>
+        </li>
+    );
+
+    // const renderChildren = (nodes, currentDepth) => {
+    //     if (!nodes || nodes.length === 0 || currentDepth > 3) {
+    //         return null;
+    //     }
+
+    //     return (
+    //         <ul>
+    //             {nodes.map(childNode => (
+    //                 <TreeNode key={childNode.id} item={childNode} depth={currentDepth} />
+    //             ))}
+    //         </ul>
+    //     );
+    // };
+
+    return renderNode();
+});
 
 const ContentAlbum = () => {
     const [topic, setTopic] = useState([]);

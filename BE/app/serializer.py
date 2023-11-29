@@ -12,3 +12,9 @@ class HeadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Heading
         fields = '__all__'
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = '__all__'

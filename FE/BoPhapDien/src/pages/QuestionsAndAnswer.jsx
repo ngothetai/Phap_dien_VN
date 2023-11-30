@@ -18,9 +18,23 @@ const QuestionAndAnswer = () => {
     ]);
     const [isBotTyping, setIsBotTyping] = useState(false);
 
+
     useEffect(() => {
         msgEnd.current.scrollIntoView()
     }, [messages])
+
+
+    const handleNewChat = () => {
+        setTimeout(() => {
+            setMessages([
+                {
+                    text: "Xin chào👋 Tôi có thể giúp gì cho bạn!!!",
+                    isBot: true
+                }
+            ])
+        }, 200);
+    }
+
 
     const handleSend = async (e) => {
         try {
@@ -48,6 +62,7 @@ const QuestionAndAnswer = () => {
                 ])
             }, 1000);
 
+
         } catch (e) {
             console.log(e);
         } finally {
@@ -63,7 +78,7 @@ const QuestionAndAnswer = () => {
                     <div className="upperSideTop" onClick={() => navigate("/")}>
                         <img src={logo} alt="" className="logo" />
                     </div>
-                    <button onClick={() => { window.location.reload() }} className="midBtn btn">
+                    <button onClick={handleNewChat} style={{ cursor: "pointer" }} className="midBtn btn">
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" /></svg>
                         New Chat
                     </button>
@@ -122,5 +137,6 @@ const QuestionAndAnswer = () => {
         </div>
     )
 }
+
 
 export default QuestionAndAnswer;

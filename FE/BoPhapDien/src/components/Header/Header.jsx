@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../../assets/sass/components/_header.scss';
-import logo from '../../assets/images/logoNM.png';
+import logo from '../../assets/images/logo.png';
 const Header = () => {
     const navigate = useNavigate();
     return (
@@ -12,11 +12,11 @@ const Header = () => {
                         <NavLink to={"/"}>Trang chủ</NavLink>
                     </li>
                     <li>
-                        <NavLink to={"/q&a"} >Q & A</NavLink>
+                        <NavLink to={"/chatbot"} >Q & A</NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink to={"/login"} >Đăng nhập</NavLink>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
         </div>

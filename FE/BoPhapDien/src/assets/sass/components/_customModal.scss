@@ -1,0 +1,23 @@
+@import '../variables';
+
+.close {
+    display: flex;
+    justify-content: end;
+    cursor: pointer;
+
+    .btn-close {
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $color-primary;
+        border: none;
+        padding: 12px 24px;
+        color: #fff;
+        border-radius: 4px;
+
+        >svg {
+            margin-right: 8px;
+        }
+    }
+}

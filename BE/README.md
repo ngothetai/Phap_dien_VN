@@ -102,6 +102,9 @@ Lấy tất cả các chủ đề
 
   link: http://127.0.0.1:8000/api/topic/
 
+  respond: 
+  ![Alt text](static/demo/topic_demo.png)
+
 --------------------
 Lấy tất cả các đề mục theo chủ đề
 
@@ -112,8 +115,12 @@ Lấy tất cả các đề mục theo chủ đề
 ```python
 params = {
   'id_topic' : 'id topic được lấy từ api chủ đề'
+  'all' : true nếu lấy tất cả các mục, ngược lại false
 }
 ```
+
+  respond:
+  ![Alt text](static/demo/heading_demo.png)
 
 --------------------
 Lấy tất cả các Chương thuộc đề mục
@@ -142,6 +149,13 @@ params = {
   'id_parent'  : 'id của chương, cái này lấy của api chương'
 }
 ```
+
+  respond:
+  ![Alt text](static/demo/article_demo_null.png)
+
+  ![Alt text](static/demo/article_demo_notnull.png)
+
+
 
 --------------------
 API tìm kiếm thông tin

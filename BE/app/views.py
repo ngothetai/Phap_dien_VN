@@ -31,6 +31,13 @@ class TopicAPIView(APIView):
 class HeadingAPIView(APIView):
     def get(self, request):
         id_topic = request.GET.get('id_topic')
+        is_all = request.GET.get('all')
+        if is_all:
+            headings = Heading.objects.all()
+            serializer = HeadingSerializer(headings, many=True)
+            return Response(serializer.data)
+        
+        
         if id_topic is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         headings = Heading.objects.filter(topic_id=id_topic)

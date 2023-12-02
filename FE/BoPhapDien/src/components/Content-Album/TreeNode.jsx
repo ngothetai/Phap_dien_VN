@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Loading from '../Loading/Loading';
-import { heading } from '../../data/heading';
-import { article } from '../../data/article';
-import { things } from '../../data/things';
 import CustomModal from './CustomModal';
+import pdfUrl from '../../data/detail.pdf';
 const TreeNode = ({ item }) => {
-    const [children, setChildren] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [heading, setHeading] = useState([]);
+    const [chaps, setChaps] = useState([]);
+    const [things, setThings] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -18,60 +15,88 @@ const TreeNode = ({ item }) => {
         setIsModalOpen(false);
     };
 
-    const handleToggle = async () => {
-        if (!item.children || item.children.length === 0) {
-            setLoading(true);
-
-            try {
-                let apiUrl = '';
-                switch (item.level) {
-                    case 'topic':
-                        setChildren(heading);
-                        break;
-                    case 'heading':
-                        setChildren(article);
-                        break;
-                    case 'article':
-                        setChildren(things);
-                        break;
-                    default:
-                        break;
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
+    const handleToggle = async (url, params, setData) => {
+        try {
+            if (params.id_parent === null) {
+                params.id_parent = "null";
             }
+            const { data } = await axios.get(url, { params: params });
+            setData(data);
+        } catch (error) {
+            console.log(url);
+            console.log(params);
+            // console.log(error);
         }
+    }
+    const renderNode = () => {
+        return (
+            <li key={item.topic_id}>
+                <details onToggle={() => handleToggle("http://127.0.0.1:8000/api/heading/", { id_topic: item.topic_id }, setHeading)}>
+                    <summary>
+                        <span className="plus">+</span>
+                        Chủ đề: {item.topic_name}
+                    </summary>
+                    {
+                        heading && heading.length > 0 &&
+                        <ul>
+                            {heading.map((node, index) => (
+                                <li key={node.heading_id}>
+                                    <details onToggle={() => handleToggle("http://127.0.0.1:8000/api/article/", {
+                                        id_heading: node.heading_id,
+                                        id_parent: null
+                                    }, setChaps)}>
+                                        <summary>
+                                            <span className="plus">+</span>
+                                            Đề mục {index + 1}: {node.heading_name}
+                                        </summary>
+                                        {
+                                            chaps && chaps.length > 0 &&
+                                            <ul>
+                                                {chaps.map((childNode) => (
+                                                    <li key={childNode.article_id}>
+                                                        <details onToggle={() => handleToggle("http://127.0.0.1:8000/api/article/", {
+                                                            id_heading: childNode.heading,
+                                                            id_parent: childNode.article_id
+                                                        }, setThings)}>
+                                                            <summary>
+                                                                <span className="plus">+</span>
+                                                                {childNode.article_name}
+                                                            </summary>
+                                                            {
+                                                                things && things.length > 0 &&
+                                                                <ul>
+                                                                    {
+                                                                        things.map((subChildNode, index) => (
+                                                                            <li key={index} className='leaf'>
+                                                                                <span className="plus">-</span>
+                                                                                {subChildNode.article_name}
+                                                                                <button className='btn-detail' onClick={openModal}>(Xem chi tiết)</button>
+                                                                            </li>
+                                                                        ))
+                                                                    }
+                                                                </ul>
+
+                                                            }
+                                                        </details>
+                                                    </li>
+                                                ))}
+                                            </ul>
+
+                                        }
+                                    </details>
+                                </li>
+                            ))}
+                        </ul>
+                    }
+                </details>
+                <CustomModal isOpen={isModalOpen} onClose={closeModal}>
+                    <object data={pdfUrl} type="application/pdf" width="100%" height="600px">
+                        <p style={{ marginBottom: "28px", lineHeight: "36px" }}>Trình duyệt của bạn không hỗ trợ xem trực tiếp tệp PDF. Bạn có thể <a style={{ color: "red", ':hover': { color: '#0c8a43' } }} download="phapdien.pdf" href={pdfUrl}>tải xuống tại đây</a>.</p>
+                    </object>
+                </CustomModal>
+            </li>
+        )
     };
-
-
-    const renderNode = () => (
-        <li key={item.id}>
-            <details onToggle={handleToggle}>
-                <summary>
-                    <span className="plus">{item.level == "things" ? "-" : "+"}</span>
-                    {item.name}
-                    {item.level === "things" && <button className='btn-detail' onClick={openModal}>(Xem chi tiết)</button>}
-                </summary>
-                {loading ? (
-                    <Loading />
-                ) : (
-                    <ul>
-                        {children.map((childNode) => (
-                            <TreeNode key={childNode.id} item={childNode} />
-                        ))}
-                    </ul>
-                )}
-            </details>
-            <CustomModal isOpen={isModalOpen} onClose={closeModal}>
-                {/* <object data="/path/to/your/pdf/file.pdf" type="application/pdf" width="100%" height="600px">
-                    <p>Trình duyệt của bạn không hỗ trợ xem PDF. Bạn có thể tải xuống file <Link to="/path/to/your/pdf/file.pdf">tại đây</Link>.</p>
-                </object> */}
-                aksldfl
-            </CustomModal>
-        </li>
-    );
 
     return renderNode();
 };

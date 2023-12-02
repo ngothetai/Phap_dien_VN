@@ -1,4 +1,5 @@
 @import '../variables';
+@import '../mixin';
 
 .footer {
     border-top: 6px solid $color-primary;
@@ -15,6 +16,17 @@
         width: $page-size;
         display: flex;
         justify-content: space-between;
+
+
+        img {
+            @include mobile() {
+                display: none;
+            }
+
+            @include small-tablet() {
+                display: none;
+            }
+        }
 
     }
 

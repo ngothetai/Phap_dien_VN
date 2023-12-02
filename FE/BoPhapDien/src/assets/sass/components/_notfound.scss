@@ -1,8 +1,21 @@
 @import '../variables';
+@import '../mixin';
 
 .not-found {
     width: $page-size;
     margin: 0 auto;
+
+    @include mobile() {
+        width: 80%;
+    }
+
+    @include small-tablet() {
+        width: 80%;
+    }
+
+    @include tablet() {
+        width: 80%;
+    }
 
     >div {
         display: flex;
@@ -13,6 +26,20 @@
 
         >img {
             width: 60%;
+
+            @include mobile() {
+                width: 100%;
+                margin-bottom: 32px;
+            }
+
+            @include small-tablet() {
+                width: 100%;
+                margin-bottom: 32px;
+            }
+
+            @include tablet() {
+                margin-bottom: 32px;
+            }
         }
 
         >button {

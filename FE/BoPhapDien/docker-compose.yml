@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  client-phapdien:
+    image: client-phapdien
+    container_name: client-phapdien
+    restart: on-failure
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "3000:80"
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

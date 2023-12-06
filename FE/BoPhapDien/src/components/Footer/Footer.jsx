@@ -1,22 +1,30 @@
-import { NavLink } from 'react-router-dom';
 import '../../assets/sass/components/_footer.scss'
-import cert from '../../assets/images/handle_cert.png';
+import logoSchool from '../../assets/images/logoWhite.png';
+import logoGroup from '../../assets/images/logoGroup.png';
 const Footer = () => {
     return (
         <div className='footer'>
             <div>
-                <div className="footer-contact">
-                    <strong>CỔNG THÔNG TIN ĐIỆN TỬ PHÁP ĐIỂN</strong>
-                    <p>
-                        <strong>Địa chỉ: </strong> Trần Phú, Ba Đình, Hà Nội. <strong>Điện thoại: </strong> 024.62739660 Fax: 024.62739655 Email: <NavLink to={`mailto: banbientapphapdien@moj.gov.vn`}>banbientapphapdien@moj.gov.vn</NavLink>
-                    </p>
-                    <p>Giấy phép cung cấp thông tin trên internet số 28/GP-BC ngày 25/03/2005.</p>
-                    <p>Trưởng Ban biên tập: Hồ Quang Huy - Cục trưởng Cục Kiểm tra văn bản quy phạm pháp luật.</p>
-                    <p>Mọi thông tin phát hành lại từ cổng thông tin này phải ghi rõ nguồn “Cổng thông tin điện tử pháp điển: <NavLink target='_blank' to="https://phapdien.moj.gov.vn/Pages/home.aspx"> phapdien.moj.gov.vn</NavLink>”.
-                    </p>
-                    <br /><br />
-                </div>
-                <img src={cert} alt="Đây là hình ảnh cert" />
+                {/* <div className="footer-top">
+                    <div className="about-us">
+                        <h2 className="footer-title">VỀ CHÚNG TÔI</h2>
+                        <p>
+                            -Tên đội: The_Three_Amigos
+                        </p>
+                        <p>
+                            -Thành viên:
+                            <ul>
+                                <li><a href="https://www.facebook.com/taingothe02" target='_blank'>Ngô Thế Tài</a></li>
+                                <li><a href="https://www.facebook.com/toilavu02" target='_blank'>Nguyễn Văn Vũ</a></li>
+                                <li><a href="https://www.facebook.com/profile.php?id=100029726374075" target='_blank'>Nguyễn Thị Trang</a></li>
+                            </ul>
+                        </p>
+                    </div>
+                </div> */}
+            </div>
+            <div className="footer-bottom">
+                <img src={logoGroup} alt="" />
+                Website được xây dựng và phát triển bởi đội <span> The_Three_Amigos</span>
             </div>
         </div>
     );

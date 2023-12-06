@@ -49,8 +49,8 @@ const QuestionAndAnswer = () => {
                 text: textInput,
                 isBot: false
             }])
-            const res = await axios.post("http://127.0.0.1:8000/api/question/", { "content": textInput });
-            console.log(res);
+            const res = await axios.post("http://103.140.39.166:80/api/question/", { "content": textInput });
+            // console.log(res);
             setTimeout(() => {
                 setMessages([
                     ...messages,

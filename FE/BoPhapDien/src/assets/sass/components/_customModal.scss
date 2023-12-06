@@ -17,10 +17,18 @@
         @include mobile() {
             width: 80%;
         }
+
+        ._content p {
+            font-weight: bold !important;
+        }
     }
+
+
 }
 
 .close {
+    border-top: 1px solid #333;
+    padding-top: 20px;
     display: flex;
     justify-content: end;
 

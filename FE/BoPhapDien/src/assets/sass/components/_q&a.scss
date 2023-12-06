@@ -1,8 +1,13 @@
 @import '../variables';
+@import '../mixin';
 
 .chatbot {
     display: flex;
     height: 100vh;
+
+    @include tablet() {
+        justify-content: center;
+    }
 }
 
 .btn {
@@ -19,6 +24,18 @@
 .sideBar {
     flex: 2.5;
     background-color: $color-primary;
+
+    @include mobile() {
+        display: none;
+    }
+
+    @include small-tablet() {
+        display: none;
+    }
+
+    @include tablet() {
+        display: none;
+    }
 
     .upperSide {
         padding: 1rem 1.6rem;
@@ -49,14 +66,6 @@
             margin-right: 8px;
         }
 
-        .upperSideBottom {
-            .query {
-                background: transparent;
-                border: 1px solid $text-white;
-                margin: 1rem 0;
-                justify-content: start;
-            }
-        }
     }
 
     .lowerSide {
@@ -91,6 +100,42 @@
     align-items: center;
     margin: 4rem 10rem;
 
+    @include mobile() {
+        margin: 6rem 1rem;
+    }
+
+    @include mobile() {
+        width: 80%;
+    }
+
+    @include small-tablet() {
+        margin: 2rem 1rem;
+    }
+
+    @include small-tablet() {
+        width: 80%;
+    }
+
+    .header {
+        display: none;
+
+        @include mobile() {
+            display: flex;
+        }
+
+        @include small-tablet() {
+            display: flex;
+
+            picture>img {
+                height: 40px;
+            }
+        }
+
+        @include tablet() {
+            display: flex;
+        }
+    }
+
     .chats {
         overflow: hidden;
         overflow-y: auto;
@@ -98,6 +143,15 @@
         width: 100%;
         max-width: 48rem;
         height: calc(100% - 8rem);
+
+        @include small-tablet() {
+            margin-top: 60px;
+            width: 90%;
+        }
+
+        @include tablet() {
+            margin-top: 60px;
+        }
 
         .chat {
             padding: 1rem;
@@ -161,6 +215,16 @@
             display: flex;
             justify-content: space-between;
             width: 48rem;
+
+            @include mobile() {
+                width: 90%;
+                margin-bottom: 10%;
+            }
+
+            @include small-tablet() {
+                width: 90%;
+                margin-bottom: 2%;
+            }
 
             >button,
             input {

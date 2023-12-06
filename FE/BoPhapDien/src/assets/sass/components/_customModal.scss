@@ -1,9 +1,36 @@
 @import '../variables';
+@import '../mixin';
+
+.ReactModal__Overlay {
+    z-index: 200 !important;
+    background: #00000056 !important;
+    overflow: auto;
+    transition: all 0.4s linear;
+
+    .ReactModal__Content {
+        width: 60%;
+        height: max-content;
+        margin: auto;
+        border-radius: 8px;
+        padding: 20px;
+
+        @include mobile() {
+            width: 80%;
+        }
+
+        ._content p {
+            font-weight: bold !important;
+        }
+    }
+
+
+}
 
 .close {
+    border-top: 1px solid #333;
+    padding-top: 20px;
     display: flex;
     justify-content: end;
-    cursor: pointer;
 
     .btn-close {
         height: 40px;
@@ -15,9 +42,25 @@
         padding: 12px 24px;
         color: #fff;
         border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.4s linear;
 
         >svg {
             margin-right: 8px;
         }
+
+        &:hover {
+            background-color: $color-secondary;
+        }
+    }
+}
+
+.h2 {
+    text-align: center;
+    margin: 12px 0;
+    color: #2f9f65;
+
+    @include mobile() {
+        font-size: 22px;
     }
 }

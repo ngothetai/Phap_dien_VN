@@ -1,5 +1,5 @@
 @import '../variables';
-
+@import '../mixin';
 
 .content-album {
     overflow: auto;
@@ -7,6 +7,17 @@
     margin: 0 auto;
     margin-top: 72px;
 
+    @include mobile() {
+        width: 100%;
+    }
+
+    @include small-tablet() {
+        width: 100%;
+    }
+
+    @include tablet() {
+        width: 100%;
+    }
 
     .title {
         background-color: #fff;
@@ -16,35 +27,108 @@
         padding: 24px 0;
         z-index: 80;
         border-bottom: 1px solid $color-primary;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .download {
+            display: block;
+            margin: 0 auto;
+            font-size: 12px;
+            transition: all 0.4s ease;
+
+            &:hover {
+                color: $color-primary;
+
+                svg {
+                    fill: $color-primary
+                }
+            }
+        }
 
         >h1 {
             font-size: 20px;
             text-align: center;
+
+            @include mobile() {
+                font-size: 18px;
+            }
+        }
+
+        @include mobile() {
+            width: 100%;
+        }
+
+        @include small-tablet() {
+            width: 100%;
+        }
+
+        @include tablet() {
+            width: 100%;
         }
     }
 }
 
 .search {
     width: $page-size;
-    margin: 80px auto 0;
+    margin: 100px auto 0;
     height: 100vh;
     overflow-y: auto;
     scroll-behavior: smooth;
 
+    @include mobile() {
+        width: 100%;
+    }
+
+    @include small-tablet() {
+        width: 100%;
+    }
+
+    @include tablet() {
+        width: 100%;
+    }
 
     >div {
         display: flex;
         padding: 1rem 0;
 
+        @include mobile() {
+            justify-content: center;
+        }
+
+        @include small-tablet() {
+            justify-content: center;
+        }
+
+        @include tablet() {
+            justify-content: center;
+        }
+
         select,
         form {
+            height: 44px;
             padding: 8px;
             width: 30%;
 
+            @include mobile() {
+                width: 40%;
+            }
+
+            @include small-tablet() {
+                width: 40%;
+            }
         }
 
         select:nth-child(2) {
             margin: 0 16px;
+
+            @include mobile() {
+                display: none;
+            }
+
+            @include small-tablet() {
+                display: none;
+            }
         }
 
         option {
@@ -58,6 +142,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            @include mobile() {
+                margin-left: 16px;
+            }
+
+            @include small-tablet() {
+                margin-left: 16px;
+            }
 
             >input {
                 border: none;
@@ -100,6 +192,22 @@
 .tree {
     padding: 2em 2em 2em 0;
     border-top: 1px solid $color-primary;
+
+
+    @include mobile() {
+        padding: 2rem;
+        justify-content: start !important;
+    }
+
+    @include small-tablet() {
+        padding: 2rem;
+        justify-content: start !important;
+    }
+
+    @include tablet() {
+        padding: 2rem;
+        justify-content: start !important;
+    }
 
     ul,
     summary {
@@ -158,11 +266,10 @@
         border-radius: 50%;
         margin-right: 8px;
         color: $text-white;
-        display: inline-block;
-        line-height: 20px;
-        text-align: center;
         position: relative;
         z-index: 40;
+        display: inline-flex;
+        justify-content: center;
     }
 
 
@@ -187,13 +294,22 @@
     display: none;
 }
 
-summary {
+summary,
+.leaf {
     line-height: 2.6rem !important;
+    transition: all 0.4s linear;
+
+    &:hover {
+        color: red;
+    }
 }
 
-summary:hover {
-    color: red;
+.leaf .plus {
+    margin-left: 12px;
+}
 
+summary:hover,
+.leaf:hover {
     .btn-detail {
         display: inline-block;
     }
